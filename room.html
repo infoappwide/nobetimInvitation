@@ -11,9 +11,6 @@
       background-color: #f9f9f9;
       color: #333;
     }
-    .hidden {
-      display: none;
-    }
   </style>
   <script>
     function getRoomId() {
@@ -23,24 +20,16 @@
 
     function openApp() {
       const roomId = getRoomId();
-      const fallbackMessage = document.getElementById('fallback-message');
+      const schemeURL = roomId
+        ? `NobetimApp://room/${roomId}`
+        : `NobetimApp://`;
 
-      if (!roomId) {
-        fallbackMessage.textContent = "No room link was found. Please download the Nöbetim App from your app store.";
-        fallbackMessage.classList.remove('hidden');
-        return;
-      }
-
-      const schemeURL = `NobetimApp://room/${roomId}`;
-      const userAgent = navigator.userAgent || navigator.vendor;
-
-      // Attempt to open the app
+      // Try opening the app
       window.location.href = schemeURL;
 
-      // If not installed, show message after delay
+      // Fallback to App Store after 1.5s if not installed
       setTimeout(() => {
-        fallbackMessage.textContent = "It looks like the Nöbetim App is not installed. Please download it from your app store.";
-        fallbackMessage.classList.remove('hidden');
+        window.location.href = "https://apps.apple.com/tr/app/n%C3%B6betim/id6747384428";
       }, 1500);
     }
 
@@ -49,6 +38,5 @@
 </head>
 <body>
   <p>Redirecting to the Nöbetim app...</p>
-  <p id="fallback-message" class="hidden"></p>
 </body>
 </html>
