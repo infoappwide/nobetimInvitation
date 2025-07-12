@@ -11,6 +11,12 @@
       background-color: #f9f9f9;
       color: #333;
     }
+    #fallback-message {
+      margin-top: 20px;
+      color: #555;
+      font-size: 16px;
+      display: none;
+    }
   </style>
   <script>
     function getRoomId() {
@@ -24,12 +30,18 @@
         ? `NobetimApp://room/${roomId}`
         : `NobetimApp://`;
 
-      // Try opening the app
+      // Attempt to open the app
       window.location.href = schemeURL;
 
-      // Fallback to App Store after 1.5s if not installed
+      // Show fallback message and redirect to App Store
       setTimeout(() => {
-        window.location.href = "https://apps.apple.com/tr/app/n%C3%B6betim/id6747384428";
+        const fallbackMessage = document.getElementById('fallback-message');
+        fallbackMessage.textContent = "The app is not installed. Redirecting to the App Store...";
+        fallbackMessage.style.display = "block";
+
+        setTimeout(() => {
+          window.location.href = "https://apps.apple.com/tr/app/n%C3%B6betim/id6747384428";
+        }, 1000); // Additional delay to show message
       }, 1500);
     }
 
@@ -38,5 +50,6 @@
 </head>
 <body>
   <p>Redirecting to the Nöbetim app...</p>
+  <p id="fallback-message"></p>
 </body>
 </html>
